@@ -1,10 +1,8 @@
 ---
-title: "Advertising Data Analysis"
+title: "Advertising and Auto Data Analysis"
 author: "Berat Mert Kayacan"
 date: "2026-04-08"
-output:
-  html_document:
-    df_print: paged
+output: github_document
 ---
 
 ```{r setup, include=FALSE}
