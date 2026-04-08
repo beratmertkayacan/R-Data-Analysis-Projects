@@ -1,0 +1,61 @@
+---
+title: "Advertising Data Analysis"
+author: "Berat Mert Kayacan"
+date: "2026-04-08"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+advertising = read.csv("Advertising.csv", header=T, na.strings="?")
+dim(advertising) # veri seti boyutları
+names(advertising) # sütun isimleri 
+
+summary(advertising) # özet istatistikler
+attach(advertising) # değişkenlere doğrudan isimleriyle erişebilmek için 
+```
+
+```{r}
+# Plot ile TV ve Sales ilişkisi 
+plot(TV, sales, main="TV Reklam Harcamaları vs Satışlar", 
+     xlab="TV Reklam Harcaması", ylab="Satışlar", col="blue", pch=20)
+```
+Fitting the Model:
+```{r}
+model = lm(sales ~ TV, data = advertising) #modeli oluşturma 
+summary(model) # modelin özetini göster
+```
+
+```{r}
+plot(model) #diagnostic 4 plot 
+```
+
+
+
+
+MULTİPLE LİNEAR REGRESSİON
+
+```{r}
+model = lm(sales ~ TV + radio + newspaper, data = advertising)
+summary(model)
+```
+
+MULTİPLE REGRESSION - AUTO DATASET
+
+
+```{r}
+Auto = read.csv("Auto.csv", header=T, na.strings="?", stringsAsFactors = T) # Auto verisetini yükle (na.strings eksik değerler için)
+summary(Auto)
+```
+
+```{r}
+model_auto = lm(mpg ~ cylinders + displacement + horsepower + 
+                 weight + acceleration + year + origin, data = Auto) # auto modeli kur 
+summary(model_auto) # sonuçları özetle 
+```
+
