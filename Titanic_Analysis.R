@@ -38,7 +38,7 @@ barplot(table(titanic$Survived),
 
 
 counts <- table(titanic$Survived, titanic$Sex) #Survived ve Sex tablosunu oluştur
-#barplot grafiği oluştur
+#barplot ile grafiği oluştur
 barplot(counts, 
         beside = TRUE, 
         col = c("#C44E52", "#55A868"),
