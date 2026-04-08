@@ -1,0 +1,39 @@
+# Veriyi okuma#
+advertising = read.csv("Advertising.csv", header=T, na.strings="?")#
+#
+# Veri setinin boyutlarını görme (Satır ve Sütun sayısı)#
+dim(advertising)#
+#
+# Sütun isimlerini listeleme#
+names(advertising)#
+#
+# İstatistiksel özet (Min, Max, Mean vb.)#
+summary(advertising)#
+#
+# Sütun isimlerine doğrudan erişim sağlama (TV, sales gibi)#
+attach(advertising)
+advertising = read.csv(file.choose(), header=T, na.strings="?")
+dim(advertising)#
+names(advertising)#
+summary(advertising)#
+attach(advertising)
+plot(TV, sales)
+pairs(advertising)
+# Lineer regresyon modelini kurma#
+model = lm(sales ~ TV, data = advertising)#
+summary(model)
+plot(model)
+# Çoklu model kurulumu#
+model = lm(sales ~ TV + radio + newspaper, data = advertising)#
+#
+# Model özetini görüntüleme#
+summary(model)
+model2 = lm(sales ~ TV + radio , data = advertising)
+summary(model2)
+model3 = lm(sales ~ radio , data = advertising)
+summary(model3)
+getwd()
+data <- read.csv("titanic.csv", header = TRUE, na.strings = "?") #başlığı atla, ? görürsen na algıla.
+head(data)
+dim(data)
+colSums(is.na(data)) # na data sayısını gösterir
