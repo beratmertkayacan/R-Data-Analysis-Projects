@@ -1,0 +1,48 @@
+---
+title: "Logistic Regression Analysis"
+author: "Berat Mert Kayacan"
+output: github_document
+---
+
+```{r}
+library(ISLR)
+names(Default)
+dim(Default)
+summary(Default)
+
+#pairs(Default) yazarsan düz sadece matrix verir
+pairs # scatterplot matrix renklendirilmiş, düzenlenmiş.
+colors <- ifelse(Default$default == "Yes", "#E41A1C", "#377EB8") 
+pairs(Default, col = colors, main = "Default Verileri İlişkileri")
+```
+
+
+Logistic Regression 
+
+```{r}
+library(ISLR)
+library(caTools)
+set.seed(42) # hep aynı 8000 veriyi al(her çalıştırışta farklı alıp farklı tahminler yapmasın diye kullanılır)
+sample = sample.split(Default$default, SplitRatio = 0.8) # Default datasetinde default değişkenini ayır
+trainData = subset(Default, sample == TRUE) # 8000 satır training için ayrıldı
+testData  = subset(Default, sample == FALSE) # 2000 satır test için ayrıldı
+glm.fits = glm(default ~ balance, data = trainData, family = binomial) # modeli oluştur(balance'a bakarak P(x)= B0 + B1x ---> x balance)
+summary(glm.fits)
+```
+
+coefficients
+intercept = B0 
+balance = B1 
+
+
+Model 1: Sadece Balance giriş
+
+```{r}
+glm.probs = predict(glm.fits, testData, type="response") #testData da test et ve olasılıkları hesapla
+glm.pred = rep("No", 2000) # predictiona dönüştür
+glm.pred[glm.probs > 0.5] = "Yes" # olasılıkları trashhold ile kıyasla fazlaysa Yes'e döndür
+table(glm.pred, testData$default) # Diagonaldekilerin toplamı doğru tahmin sayısını verir
+mean(glm.pred == testData$default) # %97 ihtimalle doğru tahminler verir bu model.
+
+```
+
