@@ -1,0 +1,59 @@
+---
+title: "Linear Regression on Advertising and Auto Data"
+author: "Berat Mert Kayacan"
+date: "2026-04-08"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Advertising veri setinin yüklenmesi
+
+```{r load-advertising}
+advertising <- read.csv("../../data/advertising.csv", header = TRUE, na.strings = "?")
+dim(advertising) # veri seti boyutları
+names(advertising) # sütun isimleri
+summary(advertising) # özet istatistikler
+```
+
+## TV harcaması ile satışların ilişkisi
+
+```{r tv-sales-scatter}
+plot(advertising$TV, advertising$sales,
+     main = "TV Reklam Harcamaları ve Satışlar",
+     xlab = "TV Reklam Harcaması", ylab = "Satışlar",
+     col = "blue", pch = 20)
+```
+
+## Basit doğrusal regresyon
+
+```{r simple-linear-model}
+model <- lm(sales ~ TV, data = advertising) # modeli oluştur
+summary(model) # modelin özeti
+```
+
+```{r model-diagnostics}
+plot(model) # dört adet artık grafiği
+```
+
+## Çoklu doğrusal regresyon
+
+```{r multiple-linear-model}
+model_multiple <- lm(sales ~ TV + radio + newspaper, data = advertising)
+summary(model_multiple)
+```
+
+## Auto veri seti ile çoklu regresyon
+
+```{r load-auto}
+auto <- read.csv("../../data/auto.csv", header = TRUE, na.strings = "?", stringsAsFactors = TRUE)
+summary(auto)
+```
+
+```{r auto-multiple-model}
+model_auto <- lm(mpg ~ cylinders + displacement + horsepower +
+                   weight + acceleration + year + origin, data = auto)
+summary(model_auto) # sonuçları özetle
+```

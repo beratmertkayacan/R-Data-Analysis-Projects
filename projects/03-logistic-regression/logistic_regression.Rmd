@@ -1,0 +1,45 @@
+---
+title: "Logistic Regression on the Default Data Set"
+author: "Berat Mert Kayacan"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Default veri setine ilk bakış
+
+```{r explore-default}
+library(ISLR)
+names(Default)
+dim(Default)
+summary(Default)
+# kredi ödememe durumuna göre renklendirilmiş saçılım matrisi
+colors <- ifelse(Default$default == "Yes", "#E41A1C", "#377EB8")
+pairs(Default, col = colors, main = "Default Verileri İlişkileri")
+```
+
+## Eğitim ve test ayrımı ile model kurulumu
+
+Kesme terimi B0, balance katsayısı ise B1 olarak okunur.
+
+```{r train-logistic-model}
+library(caTools)
+set.seed(42) # her çalıştırmada aynı ayrımı elde etmek için
+sample <- sample.split(Default$default, SplitRatio = 0.8) # default değişkenine göre tabakalı ayrım
+trainData <- subset(Default, sample == TRUE) # 8000 satır eğitim için
+testData <- subset(Default, sample == FALSE) # 2000 satır test için
+glm_fit <- glm(default ~ balance, data = trainData, family = binomial) # P(default) ~ balance
+summary(glm_fit)
+```
+
+## Test kümesinde başarım
+
+```{r evaluate-model}
+glm_probs <- predict(glm_fit, testData, type = "response") # test kümesi olasılıkları
+glm_pred <- rep("No", nrow(testData))
+glm_pred[glm_probs > 0.5] <- "Yes" # 0.5 eşiğine göre sınıfa çevir
+table(glm_pred, testData$default) # karışıklık matrisi, köşegen doğru tahminler
+mean(glm_pred == testData$default) # doğruluk oranı
+```

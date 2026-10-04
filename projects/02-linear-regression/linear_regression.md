@@ -1,17 +1,19 @@
-Advertising and Auto Data Analysis
+Linear Regression on Advertising and Auto Data
 ================
 Berat Mert Kayacan
 2026-04-08
 
+## Advertising veri setinin yüklenmesi
+
 ``` r
-advertising = read.csv("Advertising.csv", header=T, na.strings="?")
+advertising <- read.csv("../../data/advertising.csv", header = TRUE, na.strings = "?")
 dim(advertising) # veri seti boyutları
 ```
 
     ## [1] 200   4
 
 ``` r
-names(advertising) # sütun isimleri 
+names(advertising) # sütun isimleri
 ```
 
     ## [1] "TV"        "radio"     "newspaper" "sales"
@@ -28,22 +30,22 @@ summary(advertising) # özet istatistikler
     ##  3rd Qu.:218.82   3rd Qu.:36.525   3rd Qu.: 45.10   3rd Qu.:17.40  
     ##  Max.   :296.40   Max.   :49.600   Max.   :114.00   Max.   :27.00
 
+## TV harcaması ile satışların ilişkisi
+
 ``` r
-attach(advertising) # değişkenlere doğrudan isimleriyle erişebilmek için 
+plot(advertising$TV, advertising$sales,
+     main = "TV Reklam Harcamaları ve Satışlar",
+     xlab = "TV Reklam Harcaması", ylab = "Satışlar",
+     col = "blue", pch = 20)
 ```
 
-``` r
-# Plot ile TV ve Sales ilişkisi 
-plot(TV, sales, main="TV Reklam Harcamaları vs Satışlar", 
-     xlab="TV Reklam Harcaması", ylab="Satışlar", col="blue", pch=20)
-```
+![](linear_regression_files/figure-gfm/tv-sales-scatter-1.png)<!-- -->
 
-![](Advertising_Analysis_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
-Fitting the Model:
+## Basit doğrusal regresyon
 
 ``` r
-model = lm(sales ~ TV, data = advertising) #modeli oluşturma 
-summary(model) # modelin özetini göster
+model <- lm(sales ~ TV, data = advertising) # modeli oluştur
+summary(model) # modelin özeti
 ```
 
     ## 
@@ -66,16 +68,16 @@ summary(model) # modelin özetini göster
     ## F-statistic: 312.1 on 1 and 198 DF,  p-value: < 2.2e-16
 
 ``` r
-plot(model) #diagnostic 4 plot 
+plot(model) # dört adet artık grafiği
 ```
 
-![](Advertising_Analysis_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->![](Advertising_Analysis_files/figure-gfm/unnamed-chunk-4-2.png)<!-- -->![](Advertising_Analysis_files/figure-gfm/unnamed-chunk-4-3.png)<!-- -->![](Advertising_Analysis_files/figure-gfm/unnamed-chunk-4-4.png)<!-- -->
+![](linear_regression_files/figure-gfm/model-diagnostics-1.png)<!-- -->![](linear_regression_files/figure-gfm/model-diagnostics-2.png)<!-- -->![](linear_regression_files/figure-gfm/model-diagnostics-3.png)<!-- -->![](linear_regression_files/figure-gfm/model-diagnostics-4.png)<!-- -->
 
-MULTİPLE LİNEAR REGRESSİON
+## Çoklu doğrusal regresyon
 
 ``` r
-model = lm(sales ~ TV + radio + newspaper, data = advertising)
-summary(model)
+model_multiple <- lm(sales ~ TV + radio + newspaper, data = advertising)
+summary(model_multiple)
 ```
 
     ## 
@@ -99,11 +101,11 @@ summary(model)
     ## Multiple R-squared:  0.8972, Adjusted R-squared:  0.8956 
     ## F-statistic: 570.3 on 3 and 196 DF,  p-value: < 2.2e-16
 
-MULTİPLE REGRESSION - AUTO DATASET
+## Auto veri seti ile çoklu regresyon
 
 ``` r
-Auto = read.csv("Auto.csv", header=T, na.strings="?", stringsAsFactors = T) # Auto verisetini yükle (na.strings eksik değerler için)
-summary(Auto)
+auto <- read.csv("../../data/auto.csv", header = TRUE, na.strings = "?", stringsAsFactors = TRUE)
+summary(auto)
 ```
 
     ##       mpg          cylinders      displacement     horsepower        weight    
@@ -124,15 +126,15 @@ summary(Auto)
     ##                                                  (Other)       :368
 
 ``` r
-model_auto = lm(mpg ~ cylinders + displacement + horsepower + 
-                 weight + acceleration + year + origin, data = Auto) # auto modeli kur 
-summary(model_auto) # sonuçları özetle 
+model_auto <- lm(mpg ~ cylinders + displacement + horsepower +
+                   weight + acceleration + year + origin, data = auto)
+summary(model_auto) # sonuçları özetle
 ```
 
     ## 
     ## Call:
     ## lm(formula = mpg ~ cylinders + displacement + horsepower + weight + 
-    ##     acceleration + year + origin, data = Auto)
+    ##     acceleration + year + origin, data = auto)
     ## 
     ## Residuals:
     ##     Min      1Q  Median      3Q     Max 
