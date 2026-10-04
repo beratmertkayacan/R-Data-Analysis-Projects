@@ -7,3 +7,6 @@
 
 # macOS
 .DS_Store
+
+# RStudio proje dosyaları yalnızca depo kökünde tutulur
+projects/**/*.Rproj
