@@ -11,6 +11,7 @@ Bahçeşehir Üniversitesi veri bilimi çalışmaları kapsamında R ile yürüt
 | 01 | [Titanic Keşifsel Veri Analizi](projects/01-titanic-eda) | Veri temizliği ve görselleştirme | `titanic.csv` | R betiği |
 | 02 | [Doğrusal Regresyon](projects/02-linear-regression) | Basit ve çoklu doğrusal regresyon, artık analizi | `advertising.csv`, `auto.csv` | [Rapor](projects/02-linear-regression/linear_regression.md) |
 | 03 | [Lojistik Regresyon](projects/03-logistic-regression) | Sınıflandırma, eğitim ve test ayrımı, karışıklık matrisi | ISLR `Default` | [Rapor](projects/03-logistic-regression/logistic_regression.md) |
+| 04 | [Öğrenci Başarısı Regresyon Analizi](projects/04-student-performance-regression) | Veri temizliği, korelasyon, model tanısı | kod içinde üretiliyor | [Rapor](projects/04-student-performance-regression/regression_analysis.md) |
 
 ### 01. Titanic Keşifsel Veri Analizi
 
@@ -39,6 +40,17 @@ ISLR paketindeki Default veri setinde kredi ödememe durumu hesap bakiyesi üzer
 
 Genel doğruluk yüksek görünse de modelin kaçırdığı ödememe sayısı yakaladığından fazla. Bu, sınıf dengesizliği olan veri setlerinde doğruluk ölçütünün tek başına yeterli olmadığını gösteriyor.
 
+### 04. Öğrenci Başarısı Regresyon Analizi
+
+Elli öğrencilik veri seti üzerinde uçtan uca bir regresyon çalışması. Veri bilinçli olarak eksik değerler, tutarsız kategori yazımları ve mantık dışı gözlemlerle üretiliyor. Eksikler medyan ile dolduruluyor, aykırı değerler winsorization ile sınıra çekiliyor, ardından çoklu doğrusal regresyon kuruluyor.
+
+| Ölçüt | Değer |
+|---|:---:|
+| R kare | 0.9686 |
+| RMSE | 2.66 |
+
+Çalışma saati ve devam oranı anlamlı, ders dışı etkinlik katılımı anlamsız çıkıyor. Artık analizi ve Cook mesafesi ile model varsayımları ayrıca sınanıyor.
+
 ## Depo Yapısı
 
 ```
@@ -60,11 +72,16 @@ Genel doğruluk yüksek görünse de modelin kaçırdığı ödememe sayısı ya
     │   ├── linear_regression.Rmd
     │   ├── linear_regression.md
     │   └── linear_regression_files/
-    └── 03-logistic-regression/
+    ├── 03-logistic-regression/
+    │   ├── README.md
+    │   ├── logistic_regression.Rmd
+    │   ├── logistic_regression.md
+    │   └── logistic_regression_files/
+    └── 04-student-performance-regression/
         ├── README.md
-        ├── logistic_regression.Rmd
-        ├── logistic_regression.md
-        └── logistic_regression_files/
+        ├── regression_analysis.Rmd
+        ├── regression_analysis.md
+        └── regression_analysis_files/
 ```
 
 Her proje klasörü bağımsız çalışır ve veriyi `../../data` yolundan okur. R Markdown dosyaları `github_document` biçiminde derlendiği için üretilen `.md` raporları GitHub üzerinde grafikleriyle birlikte görüntülenir.
@@ -84,6 +101,7 @@ install.packages(c("ISLR", "caTools", "rmarkdown", "knitr"))
 ```r
 rmarkdown::render("projects/02-linear-regression/linear_regression.Rmd")
 rmarkdown::render("projects/03-logistic-regression/logistic_regression.Rmd")
+rmarkdown::render("projects/04-student-performance-regression/regression_analysis.Rmd")
 ```
 
 Veri setlerinin tanımı ve sütun açıklamaları için [data/README.md](data/README.md) dosyasına bakın.
@@ -92,4 +110,4 @@ Veri setlerinin tanımı ve sütun açıklamaları için [data/README.md](data/R
 
 This repository collects the exploratory data analysis and regression work I carried out in R. Each study lives in its own project folder, all data sets sit in a shared `data` directory, and the R Markdown reports are rendered as GitHub documents so they can be read with their figures directly on GitHub.
 
-The Titanic project covers missing value handling and base R visualization over 418 passenger records. The linear regression project fits simple and multiple models on the Advertising data, where adding radio spend raises R squared from 0.612 to 0.897 and newspaper spend turns out to be insignificant, and then models fuel consumption on the Auto data with an R squared of 0.822. The logistic regression project predicts credit default from account balance on the ISLR Default data, reaching 0.9735 accuracy on a held out test set while still missing more defaults than it catches, which illustrates why accuracy alone is misleading under class imbalance.
+The Titanic project covers missing value handling and base R visualization over 418 passenger records. The linear regression project fits simple and multiple models on the Advertising data, where adding radio spend raises R squared from 0.612 to 0.897 and newspaper spend turns out to be insignificant, and then models fuel consumption on the Auto data with an R squared of 0.822. The student performance project runs an end to end regression workflow on a deliberately dirty synthetic data set, covering median imputation, winsorization of impossible values, correlation comparison, residual analysis and Cook distance, and reaches an R squared of 0.9686. The logistic regression project predicts credit default from account balance on the ISLR Default data, reaching 0.9735 accuracy on a held out test set while still missing more defaults than it catches, which illustrates why accuracy alone is misleading under class imbalance.
